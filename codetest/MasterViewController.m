@@ -7,11 +7,13 @@
 //
 
 #import "MasterViewController.h"
-
 #import "DetailViewController.h"
 
+static const NSString *itunesURLPath = @"http://itunes.apple.com";
+static const NSString *itunesSearchMethod = @"/search?term=";
+
 @interface MasterViewController () {
-    NSMutableArray *_objects;
+    NSMutableArray *_searchResults;
 }
 @end
 
@@ -46,12 +48,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    return _searchResults.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TrackCell" forIndexPath:indexPath];
 
     //TODO: insert objects into table from returned results
     return cell;
@@ -65,16 +67,53 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        NSDate *object = _objects[indexPath.row];
-        self.detailViewController.detailItem = object;
+        NSDate *object = _searchResults[indexPath.row];
+        _detailViewController.detailItem = object;
     }
+}
+
+#pragma mark - UISearchBar delegate
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+
+
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    if(searchBar.text.length < 3) {
+        //discard searches that are too short
+        return;
+    }
+    
+    //Format search string to match what itunes requires, i.e. http://itunes.apple.com/search?term=SEARCHTERM1+SEARCHTERM2+...
+    NSString *queryString = [searchBar.text stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    
+    //TODO: given more time and greater scope requirements, the iTunes rest interface should be placed into its own class,
+    //named e.g. iTunesRestClient, rather than hard-coding the url as follows...
+    NSString *urlString = [NSString stringWithFormat:@"%@%@%@", itunesURLPath, itunesSearchMethod, queryString];
+    
+    NSURL *URL = [NSURL URLWithString:urlString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                            completionHandler:
+                                  ^(NSData *data, NSURLResponse *response, NSError *error) {
+                                      //TODO: add HTTP status code check & error handling
+                                      NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                      NSLog(@"%@", responseString);
+                                  }];
+    
+    [task resume];
+    [searchBar resignFirstResponder];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
+        NSDate *object = _searchResults[indexPath.row];
         [[segue destinationViewController] setDetailItem:object];
     }
 }
