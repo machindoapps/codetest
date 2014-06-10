@@ -15,7 +15,8 @@
                      album:(NSString *)newAlbumName
                      price:(NSNumber *)newPrice
                releaseDate:(NSDate *)newReleaseDate
-                   artwork:(NSURL *)newArtworkURL
+                 artwork60:(NSURL *)newArtworkURL60
+                artwork100:(NSURL *)newArtworkURL100
 {
     Track *track = [[Track alloc] init];
     
@@ -26,7 +27,8 @@
     track.albumName = newAlbumName;
     track.price = newPrice;
     track.releaseDate = newReleaseDate;
-    track.artworkURL = newArtworkURL;
+    track.artworkURL100 = newArtworkURL100;
+    track.artworkURL60 = newArtworkURL60;
 
     return track;
 }

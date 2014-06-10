@@ -14,9 +14,8 @@
 static const NSString *itunesURLPath = @"http://itunes.apple.com";
 static const NSString *itunesSearchMethod = @"/search?term=";
 
-@interface MasterViewController () {
-    NSArray *_searchResults;
-}
+@interface MasterViewController ()
+@property (nonatomic, strong) NSArray *searchResults;
 @end
 
 @implementation MasterViewController
@@ -50,7 +49,7 @@ static const NSString *itunesSearchMethod = @"/search?term=";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _searchResults.count;
+    return self.searchResults.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -58,13 +57,37 @@ static const NSString *itunesSearchMethod = @"/search?term=";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TrackCell" forIndexPath:indexPath];
 
     //TODO: insert objects into table from returned results
-    if(_searchResults.count > 0) {
-        Track *track = (Track *)_searchResults[[indexPath row]];
+    if(self.searchResults.count > 0) {
+        Track *track = (Track *)self.searchResults[[indexPath row]];
                                                
         if(track) {
             cell.detailTextLabel.text = track.name;
             cell.textLabel.text = track.artistName;
         }
+        
+        if(track.artworkURL60 != nil) {
+            NSURLSession *session = [NSURLSession sharedSession];
+            NSURLSessionDataTask *task = [session dataTaskWithURL:track.artworkURL60
+                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                            if (error) {
+                                NSLog(@"ERROR: %@", error);
+                            } else {
+                                
+                                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                                if (httpResponse.statusCode == 200) {
+                                    UIImage *image = [UIImage imageWithData:data];
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        cell.imageView.image = image;
+                                    });
+                                } else {
+                                    NSLog(@"Couldn't load image at URL: %@", track.artworkURL60);
+                                    NSLog(@"HTTP %d", httpResponse.statusCode);
+                                }
+                            }
+                        }];
+            [task resume];
+        }
+        
     }
     return cell;
 }
@@ -114,7 +137,7 @@ static const NSString *itunesSearchMethod = @"/search?term=";
                                       NSLog(@"%@", responseString);
                                       
                                       _searchResults = [TrackSearchResponseTranslator translateJsonResponse:data];
-                                      [self.tableView reloadData];
+                                      [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
                                   }];
     
     [task resume];

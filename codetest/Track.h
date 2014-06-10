@@ -15,7 +15,8 @@
 @property (nonatomic, copy) NSString *albumName;
 @property (nonatomic, strong) NSNumber *price;
 @property (nonatomic, strong) NSDate *releaseDate;
-@property (nonatomic, copy) NSURL *artworkURL;
+@property (nonatomic, copy) NSURL *artworkURL60;
+@property (nonatomic, copy) NSURL *artworkURL100;
 
 //todo: add artwork
 
@@ -24,6 +25,7 @@
                      album:(NSString *)newAlbumName
                      price:(NSNumber *)newPrice
                releaseDate:(NSDate *)newReleaseDate
-                   artwork:(NSURL *)newArtworkURL;
+                 artwork60:(NSURL *)newArtworkURL60
+                artwork100:(NSURL *)newArtworkURL100;
 
 @end

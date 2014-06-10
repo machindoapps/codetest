@@ -14,7 +14,8 @@ static const NSString *kTrackNameKey = @"trackName";
 static const NSString *kAlbumNameKey = @"collectionName";
 static const NSString *kTrackPriceKey = @"trackPrice";
 static const NSString *kTrackReleaseDateKey = @"releaseDate";
-static const NSString *kArtworkKey = @"artworkUrl100";
+static const NSString *kArtworkKey60 = @"artworkUrl60";
+static const NSString *kArtworkKey100 = @"artworkUrl100";
 
 @implementation TrackSearchResponseTranslator
 
@@ -35,18 +36,21 @@ static const NSString *kArtworkKey = @"artworkUrl100";
                     NSString *trackName = trackDict[kTrackNameKey];
                     NSString *albumName = trackDict[kAlbumNameKey];
                     NSNumber *price = trackDict[kTrackPriceKey];
-                    NSString *artworkUrl = trackDict[kArtworkKey];
+                    NSString *artworkUrl100 = trackDict[kArtworkKey100];
+                    NSString *artworkUrl60 = trackDict[kArtworkKey60];
 
                     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                     [formatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
                     NSString *dateString = trackDict[kTrackReleaseDateKey];
                     NSDate *date = [formatter dateFromString:dateString];
+
                     Track *track = [Track trackWithArtist:artist
                                                     track:trackName
                                                     album:albumName
                                                     price:price
                                               releaseDate:date
-                                                  artwork:[NSURL URLWithString:artworkUrl]];
+                                                artwork60:[NSURL URLWithString:artworkUrl60]
+                                               artwork100:[NSURL URLWithString:artworkUrl100]];
                     
                     if(track != nil) {
                         [results addObject:track];
