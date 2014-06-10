@@ -8,12 +8,14 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "TrackSearchResponseTranslator.h"
+#import "Track.h"
 
 static const NSString *itunesURLPath = @"http://itunes.apple.com";
 static const NSString *itunesSearchMethod = @"/search?term=";
 
 @interface MasterViewController () {
-    NSMutableArray *_searchResults;
+    NSArray *_searchResults;
 }
 @end
 
@@ -56,6 +58,14 @@ static const NSString *itunesSearchMethod = @"/search?term=";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TrackCell" forIndexPath:indexPath];
 
     //TODO: insert objects into table from returned results
+    if(_searchResults.count > 0) {
+        Track *track = (Track *)_searchResults[[indexPath row]];
+                                               
+        if(track) {
+            cell.detailTextLabel.text = track.name;
+            cell.textLabel.text = track.artistName;
+        }
+    }
     return cell;
 }
 
@@ -76,7 +86,6 @@ static const NSString *itunesSearchMethod = @"/search?term=";
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-
 
 }
 
@@ -103,6 +112,9 @@ static const NSString *itunesSearchMethod = @"/search?term=";
                                       //TODO: add HTTP status code check & error handling
                                       NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                                       NSLog(@"%@", responseString);
+                                      
+                                      _searchResults = [TrackSearchResponseTranslator translateJsonResponse:data];
+                                      [self.tableView reloadData];
                                   }];
     
     [task resume];

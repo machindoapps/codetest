@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D2BA2B319474375001F007E /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2BA2B219474375001F007E /* Track.m */; };
+		3D2BA2B619474C56001F007E /* TrackSearchResponseTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2BA2B519474C56001F007E /* TrackSearchResponseTranslator.m */; };
 		3DF0CA6D1947256600DDDF20 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF0CA6C1947256600DDDF20 /* Foundation.framework */; };
 		3DF0CA6F1947256600DDDF20 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF0CA6E1947256600DDDF20 /* CoreGraphics.framework */; };
 		3DF0CA711947256600DDDF20 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF0CA701947256600DDDF20 /* UIKit.framework */; };
@@ -36,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3D2BA2B119474375001F007E /* Track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Track.h; sourceTree = "<group>"; };
+		3D2BA2B219474375001F007E /* Track.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Track.m; sourceTree = "<group>"; };
+		3D2BA2B419474C56001F007E /* TrackSearchResponseTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackSearchResponseTranslator.h; sourceTree = "<group>"; };
+		3D2BA2B519474C56001F007E /* TrackSearchResponseTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackSearchResponseTranslator.m; sourceTree = "<group>"; };
 		3DF0CA691947256600DDDF20 /* codetest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = codetest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DF0CA6C1947256600DDDF20 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3DF0CA6E1947256600DDDF20 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -123,6 +129,10 @@
 				3DF0CA811947256600DDDF20 /* Main_iPad.storyboard */,
 				3DF0CA841947256600DDDF20 /* MasterViewController.h */,
 				3DF0CA851947256600DDDF20 /* MasterViewController.m */,
+				3D2BA2B419474C56001F007E /* TrackSearchResponseTranslator.h */,
+				3D2BA2B519474C56001F007E /* TrackSearchResponseTranslator.m */,
+				3D2BA2B119474375001F007E /* Track.h */,
+				3D2BA2B219474375001F007E /* Track.m */,
 				3DF0CA871947256600DDDF20 /* DetailViewController.h */,
 				3DF0CA881947256600DDDF20 /* DetailViewController.m */,
 				3DF0CA8A1947256600DDDF20 /* Images.xcassets */,
@@ -261,6 +271,8 @@
 				3DF0CA7D1947256600DDDF20 /* AppDelegate.m in Sources */,
 				3DF0CA861947256600DDDF20 /* MasterViewController.m in Sources */,
 				3DF0CA791947256600DDDF20 /* main.m in Sources */,
+				3D2BA2B319474375001F007E /* Track.m in Sources */,
+				3D2BA2B619474C56001F007E /* TrackSearchResponseTranslator.m in Sources */,
 				3DF0CA891947256600DDDF20 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,6 +488,7 @@
 				3DF0CAA31947256600DDDF20 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3DF0CAA41947256600DDDF20 /* Build configuration list for PBXNativeTarget "codetestTests" */ = {
 			isa = XCConfigurationList;
@@ -484,6 +497,7 @@
 				3DF0CAA61947256600DDDF20 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
