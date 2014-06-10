@@ -80,7 +80,7 @@ static const NSString *itunesSearchMethod = @"/search?term=";
                                         cell.imageView.image = image;
                                     });
                                 } else {
-                                    NSLog(@"Couldn't load image at URL: %@", track.artworkURL60);
+                                    NSLog(@"Error loading image at URL: %@", track.artworkURL60);
                                     NSLog(@"HTTP %d", httpResponse.statusCode);
                                 }
                             }

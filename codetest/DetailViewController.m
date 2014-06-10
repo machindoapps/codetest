@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "Track.h"
 
 @interface DetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -35,8 +36,45 @@
 {
     // Update the user interface for the detail item.
 
-    if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+    if ([self.detailItem isKindOfClass:[Track class]]) {
+        Track *track = (Track *)self.detailItem;
+        self.trackLabel.text = track.name;
+        self.albumLabel.text = track.albumName;
+        self.artistLabel.text = track.artistName;
+        
+        //TODO: Add proper currency locale handling
+        self.priceLabel.text = [NSString stringWithFormat:@"£%@", track.price];
+        
+        //TODO format the date to match the locale, and only include the day, month and year
+        self.releaseDateLabel.text = track.releaseDate.description;
+        
+        if(track.artworkURL100 != nil) {
+            NSURLSession *session = [NSURLSession sharedSession];
+            NSURLSessionDataTask *task = [session dataTaskWithURL:track.artworkURL100
+                                                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                    if (error) {
+                                                        NSLog(@"ERROR: %@", error);
+                                                    } else {
+                                                        
+                                                        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                                                        if (httpResponse.statusCode == 200) {
+                                                            UIImage *image = [UIImage imageWithData:data];
+                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                [self.artworkImage setImage:image];
+                                                                
+                                                                //Make the imageView show a circular image
+                                                                self.artworkImage.layer.cornerRadius = self.artworkImage.frame.size.height / 2;
+                                                                self.artworkImage.layer.masksToBounds = YES;
+                                                                self.artworkImage.layer.borderWidth = 0;
+                                                            });
+                                                        } else {
+                                                            NSLog(@"Error loading image at URL: %@", track.artworkURL100);
+                                                            NSLog(@"HTTP %d", httpResponse.statusCode);
+                                                        }
+                                                    }
+                                                }];
+            [task resume];
+        }
     }
 }
 

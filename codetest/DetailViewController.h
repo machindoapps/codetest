@@ -12,5 +12,12 @@
 
 @property (strong, nonatomic) id detailItem;
 
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *trackLabel;
+@property (weak, nonatomic) IBOutlet UILabel *albumLabel;
+@property (weak, nonatomic) IBOutlet UILabel *artistLabel;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *releaseDateLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *artworkImage;
+
 @end
